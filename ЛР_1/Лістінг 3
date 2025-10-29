@@ -1,0 +1,72 @@
+def selection_sort(arr):
+    n = len(arr)
+    comparisons = 0
+    assignments = 0
+    for i in range(n - 1):
+        min_index = i
+        assignments += 1
+        for j in range(i + 1, n):
+            comparisons += 1
+            if arr[j] < arr[min_index]:
+                min_index = j
+                assignments += 1
+        comparisons += 1
+        if min_index != i:
+            arr[i], arr[min_index] = arr[min_index], arr[i]
+            assignments += 3
+    return arr, comparisons, assignments
+
+
+def insertion_sort(arr):
+    n = len(arr)
+    comparisons = 0
+    assignments = 0
+    for i in range(1, n):
+        key = arr[i]
+        assignments += 1
+        j = i - 1
+        assignments += 1
+        while j >= 0 and arr[j] > key:
+            comparisons += 1
+            arr[j + 1] = arr[j]
+            assignments += 1
+            j -= 1
+            assignments += 1
+        if j >= 0:
+            comparisons += 1
+        arr[j + 1] = key
+        assignments += 1
+    return arr, comparisons, assignments
+
+
+# Вихідні дані для варіанту 6
+original = [58, 5, 50, 99, 61, 32, 27, 45, 75]
+sorted_direct = sorted(original)       # відсортована в прямому порядку
+sorted_reverse = sorted(original, reverse=True)  # зворотний порядок
+
+datasets = {
+    "Невідсортована": original,
+    "Відсортована (пряма)": sorted_direct,
+    "Відсортована (зворотна)": sorted_reverse
+}
+
+# Вивід початкового списку
+print("Оригінальний список:", original)
+print()
+
+print("Порівняння алгоритмів сортування (варіант 6):\n")
+
+for name, data in datasets.items():
+    s_arr, s_comp, s_ass = selection_sort(data.copy())
+    i_arr, i_comp, i_ass = insertion_sort(data.copy())
+
+    print(f"--- {name} послідовність ---")
+    print("Selection Sort:")
+    print(f"  Відсортований список: {s_arr}")
+    print(f"  Кількість порівнянь: {s_comp}")
+    print(f"  Кількість присвоєнь: {s_ass}")
+    print("Insertion Sort:")
+    print(f"  Відсортований список: {i_arr}")
+    print(f"  Кількість порівнянь: {i_comp}")
+    print(f"  Кількість присвоєнь: {i_ass}")
+    print()
