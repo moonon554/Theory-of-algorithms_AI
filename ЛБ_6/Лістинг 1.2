@@ -1,0 +1,56 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    const int INF = 1e9;
+    const int N = 8;
+
+    int D[N+1][N+1];
+
+    // ініціалізація INF
+    for (int i = 1; i <= N; i++)
+        for (int j = 1; j <= N; j++)
+            D[i][j] = (i == j ? 0 : INF);
+
+    auto add = [&](int u, int v, int w){
+        D[u][v] = w;
+        D[v][u] = w;
+    };
+
+    add(1,2,2);
+    add(1,4,1);
+    add(1,7,1);
+    add(2,4,3);
+    add(2,5,9);
+    add(4,5,2);
+    add(5,6,3);
+    add(6,4,5);
+    add(6,3,4);
+    add(4,3,5);
+    add(3,7,4);
+    add(7,8,6);
+    add(6,8,1);
+    add(3,8,9);
+
+    // алгоритм Флойда
+    for (int k = 1; k <= N; k++) {
+        for (int i = 1; i <= N; i++) {
+            for (int j = 1; j <= N; j++) {
+                if (D[i][k] + D[k][j] < D[i][j])
+                    D[i][j] = D[i][k] + D[k][j];
+            }
+        }
+    }
+
+    cout << "Матриця найкоротших відстаней (Флойд):\n";
+    for (int i = 1; i <= N; i++) {
+        for (int j = 1; j <= N; j++) {
+            if (D[i][j] >= INF/2) cout << "∞ ";
+            else cout << D[i][j] << " ";
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
